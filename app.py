@@ -130,7 +130,7 @@ class HTMLEditor(QMainWindow):
         self.apply_dark_theme()
         
     def apply_dark_theme(self):
-        """Apply dark theme to the application"""
+        
         self.setStyleSheet("""
             QMainWindow {
                 background-color: #2b2b2b;
@@ -257,7 +257,7 @@ class HTMLEditor(QMainWindow):
         toolbar.addAction(refresh_action)
     
     def on_text_changed(self):
-        """Handle text changes in any editor"""
+        
         self.is_modified = True
         self.update_title()
         
@@ -269,14 +269,14 @@ class HTMLEditor(QMainWindow):
         self.status_bar.showMessage("Modified" + (" - Auto-refresh enabled" if self.auto_refresh_enabled else ""))
     
     def toggle_auto_refresh(self, enabled):
-        """Toggle auto-refresh functionality"""
+        
         self.auto_refresh_enabled = enabled
         if not enabled:
             self.refresh_timer.stop()
         self.status_bar.showMessage("Auto-refresh " + ("enabled" if enabled else "disabled"))
     
     def update_title(self):
-        """Update window title"""
+        
         title = "WYSIWYG HTML Editor"
         if self.current_file:
             title += f" - {os.path.basename(self.current_file)}"
@@ -285,7 +285,7 @@ class HTMLEditor(QMainWindow):
         self.setWindowTitle(title)
     
     def generate_html(self):
-        """Generate complete HTML with embedded CSS and JS"""
+        
         html_content = self.html_editor.toPlainText()
         css_content = self.css_editor.toPlainText()
         js_content = self.js_editor.toPlainText()
@@ -325,7 +325,7 @@ class HTMLEditor(QMainWindow):
         return preview_html
     
     def update_preview(self):
-        """Update the web view preview"""
+        
         try:
             html_content = self.generate_html()
             
@@ -347,7 +347,7 @@ class HTMLEditor(QMainWindow):
             QMessageBox.critical(self, "Preview Error", f"Error updating preview: {str(e)}")
     
     def cleanup_temp_file(self, file_path):
-        """Clean up temporary file"""
+        
         try:
             if os.path.exists(file_path):
                 os.unlink(file_path)
@@ -355,7 +355,7 @@ class HTMLEditor(QMainWindow):
             pass
     
     def open_in_browser(self):
-        """Open current HTML in default browser"""
+        
         try:
             html_content = self.generate_html()
             
@@ -373,7 +373,7 @@ class HTMLEditor(QMainWindow):
             QMessageBox.critical(self, "Browser Error", f"Error opening in browser: {str(e)}")
     
     def new_file(self):
-        """Create new file"""
+        
         if self.is_modified:
             reply = QMessageBox.question(self, "Save Changes", 
                                        "Do you want to save changes before creating a new file?",
@@ -396,7 +396,7 @@ class HTMLEditor(QMainWindow):
         self.status_bar.showMessage("New file created")
     
     def open_file(self):
-        """Open HTML file"""
+        
         if self.is_modified:
             reply = QMessageBox.question(self, "Save Changes",
                                        "Do you want to save changes before opening a file?",
@@ -434,14 +434,14 @@ class HTMLEditor(QMainWindow):
                 QMessageBox.critical(self, "Open Error", f"Error opening file: {str(e)}")
     
     def save_file(self):
-        """Save current file"""
+        
         if self.current_file:
             return self.save_to_file(self.current_file)
         else:
             return self.save_as_file()
     
     def save_as_file(self):
-        """Save file with new name"""
+        
         file_path, _ = QFileDialog.getSaveFileName(self, "Save HTML File", "", 
                                                  "HTML files (*.html);;All files (*.*)")
         
@@ -450,7 +450,7 @@ class HTMLEditor(QMainWindow):
         return False
     
     def save_to_file(self, file_path):
-        """Save content to specified file"""
+        
         try:
             
             content = self.generate_html()
@@ -469,7 +469,7 @@ class HTMLEditor(QMainWindow):
             return False
     
     def closeEvent(self, event):
-        """Handle window close event"""
+        
         if self.is_modified:
             reply = QMessageBox.question(self, "Save Changes",
                                        "Do you want to save changes before exiting?",
